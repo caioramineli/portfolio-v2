@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code, Briefcase, GraduationCap, Award } from 'lucide-react';
+import { Code, Briefcase, GraduationCap, Bot } from 'lucide-react';
 
 const About = () => {
   const fadeInUp = {
@@ -47,7 +47,7 @@ const About = () => {
                 </div>
                 <div>
                   <p className="text-sm font-medium">Experiência</p>
-                  <p className="text-2xl font-bold">5+ Anos</p>
+                  <p className="text-2xl font-bold">3+ Anos</p>
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@ const About = () => {
               Desenvolvedor apaixonado por criar soluções inovadoras
             </h3>
             <p className="text-muted-foreground">
-              Sou um desenvolvedor full stack com mais de 5 anos de experiência na criação de aplicações web e móveis. Minha paixão está em transformar ideias complexas em interfaces intuitivas e funcionais que proporcionam experiências excepcionais aos usuários.
+              Sou um desenvolvedor full stack com mais de 3 anos de experiência na criação de aplicações web. Minha paixão está em transformar ideias complexas em interfaces intuitivas e funcionais que proporcionam experiências excepcionais aos usuários.
             </p>
             <p className="text-muted-foreground">
               Ao longo da minha carreira, trabalhei com diversas tecnologias e frameworks, sempre buscando as melhores práticas e soluções inovadoras para os desafios que encontro.
@@ -91,7 +91,7 @@ const About = () => {
                 <div>
                   <h4 className="font-medium">Formação Acadêmica</h4>
                   <p className="text-sm text-muted-foreground">
-                    Bacharel em Ciência da Computação
+                    Tecnólogo em Análise e Desenvolvimento de Sistemas
                   </p>
                 </div>
               </div>
@@ -103,19 +103,19 @@ const About = () => {
                 <div>
                   <h4 className="font-medium">Desenvolvimento Web</h4>
                   <p className="text-sm text-muted-foreground">
-                    Especializado em React, Node.js e tecnologias modernas
+                    Especializado em React, Vue, Node.js e tecnologias modernas
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <div className="bg-primary/20 p-2 rounded-md mt-1">
-                  <Award className="text-primary h-5 w-5" />
+                  <Bot className="text-primary h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="font-medium">Certificações</h4>
+                  <h4 className="font-medium">IA</h4>
                   <p className="text-sm text-muted-foreground">
-                    AWS Certified, Google Cloud Professional
+                    Ampla experiência em inteligência artificial e automação de processos
                   </p>
                 </div>
               </div>

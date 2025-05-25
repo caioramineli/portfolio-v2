@@ -6,33 +6,30 @@ const skillCategories = [
   {
     title: 'Frontend',
     skills: [
-      { name: 'HTML5', level: 90 },
-      { name: 'CSS3', level: 85 },
       { name: 'JavaScript', level: 90 },
-      { name: 'React', level: 85 },
-      { name: 'Vue.js', level: 75 },
-      { name: 'TailwindCSS', level: 80 },
+      { name: 'React', level: 80 },
+      { name: 'Vue.js', level: 85 },
+      { name: 'TailwindCSS', level: 75 },
+      { name: 'Next', level: 70 },
     ],
   },
   {
     title: 'Backend',
     skills: [
-      { name: 'Node.js', level: 85 },
-      { name: 'Express', level: 80 },
-      { name: 'Python', level: 75 },
-      { name: 'Django', level: 70 },
+      { name: 'Node.js', level: 80 },
+      { name: 'Express', level: 90 },
+      { name: 'Python', level: 50 },
+      { name: 'C#', level: 60 },
       { name: 'PHP', level: 65 },
-      { name: 'Laravel', level: 60 },
     ],
   },
   {
     title: 'Outros',
     skills: [
       { name: 'Git', level: 85 },
-      { name: 'Docker', level: 70 },
-      { name: 'AWS', level: 65 },
-      { name: 'Firebase', level: 75 },
-      { name: 'UI/UX Design', level: 60 },
+      { name: 'PostgreSQL', level: 65 },
+      { name: 'MongoDB', level: 80 },
+      { name: 'MySQL', level: 75 },
       { name: 'Scrum/Agile', level: 80 },
     ],
   },
@@ -116,8 +113,7 @@ const Skills = () => {
           <div className="flex flex-wrap justify-center gap-6">
             {[
               'JavaScript', 'TypeScript', 'React', 'Vue.js', 'Node.js', 
-              'Express', 'MongoDB', 'PostgreSQL', 'Firebase', 'AWS', 
-              'Docker', 'Git', 'TailwindCSS', 'Figma'
+              'Express', 'Next.js', 'MongoDB', 'PostgreSQL', 'MySQL', 'Git', 'TailwindCSS', 'Figma'
             ].map((tech, index) => (
               <motion.div
                 key={tech}

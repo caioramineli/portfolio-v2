@@ -4,38 +4,61 @@ import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+import fswBarber from '@/assets/fsw-barber.png';
+import techInsights from '@/assets/tech-insights.png';
+import planner from '@/assets/planner.png';
+import twitch from '@/assets/twitch.png';
+import shopee from '@/assets/shopee.png';
+import scaLogin from '@/assets/sca-login.png';
+
 const projects = [
   {
-    title: 'E-commerce Platform',
-    description: 'Uma plataforma de e-commerce completa com sistema de pagamentos, gerenciamento de produtos e painel administrativo.',
-    tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-    image: 'E-commerce website with product listings and shopping cart',
-    liveLink: 'https://example.com',
-    githubLink: 'https://github.com',
+    title: 'FSW Barber',
+    description: 'Sistema para barbearias, desenvolvido especialmente para dispositivos mobile. Foi utilizado as tecnologias mais recentes do mercado.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'PostgreSQL'],
+    image: fswBarber,
+    liveLink: 'https://fsw-barber-caio.vercel.app/',
+    githubLink: 'https://github.com/caioramineli/fsw-barber',
   },
   {
-    title: 'Task Management App',
-    description: 'Aplicativo de gerenciamento de tarefas com recursos de colaboração em equipe, notificações e relatórios de produtividade.',
-    tags: ['Vue.js', 'Firebase', 'Tailwind CSS'],
-    image: 'Task management application with kanban board interface',
-    liveLink: 'https://example.com',
-    githubLink: 'https://github.com',
+    title: 'Tech Insights',
+    description: 'Plataforma de e-commerce especializado em hardwares e equipamentos de informática, onde o diferencial será conteúdo informativo.',
+    tags: ['React', 'Node.js', 'Tailwind CSS', 'MongoDB'],
+    image: techInsights,
+    liveLink: 'https://techinsights.store/',
+    githubLink: 'https://github.com/caioramineli/tech-insights',
   },
   {
-    title: 'Real Estate Platform',
-    description: 'Plataforma para busca e listagem de imóveis com filtros avançados, mapas interativos e agendamento de visitas.',
-    tags: ['React', 'Express', 'PostgreSQL', 'Google Maps API'],
-    image: 'Real estate website showing property listings with map view',
-    liveLink: 'https://example.com',
-    githubLink: 'https://github.com',
+    title: 'Planejador de Viagem',
+    description: 'O projeto é um site responsivo para montar um roteiro de viagem, cadastrando atividades. O projeto é do evento NLW Journey, um evento da Rocketseat.',
+    tags: ['React', 'TypeScript', 'Tailwind CSS'],
+    image: planner,
+    liveLink: 'https://planner-nlw.vercel.app/',
+    githubLink: 'https://github.com/caioramineli/planner.er',
   },
   {
-    title: 'Fitness Tracking App',
-    description: 'Aplicativo para acompanhamento de atividades físicas, nutrição e progresso com visualizações de dados personalizadas.',
-    tags: ['React Native', 'Node.js', 'GraphQL'],
-    image: 'Fitness tracking app showing workout statistics and progress charts',
-    liveLink: 'https://example.com',
-    githubLink: 'https://github.com',
+    title: 'Clone da Twitch',
+    description: 'Projeto acadêmico para praticar o conhecimento adquirido sobre Programação WEB e Banco de dados MySql.',
+    tags: ['PHP', 'MySQL', 'JavaScript', 'HTML', 'CSS'],
+    image: twitch,
+    liveLink: '#',
+    githubLink: 'https://github.com/caioramineli/twitch-clone',
+  },
+  {
+    title: 'Xhopii',
+    description: 'Projeto acadêmico, focado em utilizar os conceitos absorvidos sobre programação Web. Não é um clone da shopee!',
+    tags: ['JavaScript', 'HTML', 'CSS', 'Bootstrap'],
+    image: shopee,
+    liveLink: 'https://caioramineli.github.io/shopee-eletiva/',
+    githubLink: 'https://github.com/caioramineli/shopee-eletiva',
+  },
+  {
+    title: 'Sistema Conveniência Araújo',
+    description: 'Sistema para uma conveniência, seguindo como base a ERS (Especificação de Requisitos de Software).',
+    tags: ['PHP', 'MySQL', 'JavaScript', 'jQuery', 'HTML', 'CSS'],
+    image: scaLogin,
+    liveLink: '#',
+    githubLink: 'https://github.com/caioramineli/sistema-SCA',
   },
 ];
 
@@ -48,8 +71,8 @@ const ProjectCard = ({ project, index }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.1 * index }}
     >
-      <div className="h-48 overflow-hidden">
-        <img  className="w-full h-full object-cover" alt={project.title} src="https://images.unsplash.com/photo-1697256200022-f61abccad430" />
+      <div className="h-56 overflow-hidden">
+        <img className="w-full h-full object-cover" alt={project.title} src={project.image} />
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold mb-2">{project.title}</h3>
@@ -73,7 +96,7 @@ const ProjectCard = ({ project, index }) => {
           >
             <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
               <ExternalLink size={14} />
-              <span>Demo</span>
+              <span>Projeto</span>
             </a>
           </Button>
           <Button
@@ -112,7 +135,7 @@ const Projects = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {projects.map((project, index) => (
             <ProjectCard key={project.title} project={project} index={index} />
           ))}
@@ -129,7 +152,7 @@ const Projects = () => {
             className="gradient-border"
             asChild
           >
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/caioramineli" target="_blank" rel="noopener noreferrer">
               Ver mais no GitHub
             </a>
           </Button>

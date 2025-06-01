@@ -4,12 +4,12 @@ import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-import fswBarber from '@/assets/fsw-barber.png';
-import techInsights from '@/assets/tech-insights.png';
-import planner from '@/assets/planner.png';
-import twitch from '@/assets/twitch.png';
-import shopee from '@/assets/shopee.png';
-import scaLogin from '@/assets/sca-login.png';
+import fswBarber from '@/assets/fsw-barber.webp';
+import techInsights from '@/assets/tech-insights.webp';
+import planner from '@/assets/planner.webp';
+import twitch from '@/assets/twitch.webp';
+import shopee from '@/assets/shopee.webp';
+import scaLogin from '@/assets/sca-login.webp';
 
 const projects = [
   {
@@ -72,7 +72,7 @@ const ProjectCard = ({ project, index }) => {
       transition={{ duration: 0.5, delay: 0.1 * index }}
     >
       <div className="h-56 overflow-hidden">
-        <img className="w-full h-full object-cover" alt={project.title} src={project.image} />
+        <img className="w-full h-full object-cover" alt={project.title} src={project.image} loading="lazy" />
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold mb-2">{project.title}</h3>

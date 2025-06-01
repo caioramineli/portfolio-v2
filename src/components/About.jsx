@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Code, Briefcase, GraduationCap, Bot } from 'lucide-react';
+import notebook from '@/assets/notebook.webp'
 
 const About = () => {
   const fadeInUp = {
@@ -38,7 +39,7 @@ const About = () => {
             className="relative"
           >
             <div className="relative w-full h-[400px] rounded-lg overflow-hidden gradient-border">
-              <img  className="w-full h-full object-cover" alt="Developer working" src="https://images.unsplash.com/photo-1507146815454-9faa99d579aa" />
+              <img  className="w-full h-full object-cover" alt="Developer working" src={notebook} loading="lazy" />
             </div>
             <div className="absolute -bottom-6 -right-6 p-4 bg-background rounded-lg shadow-lg gradient-border">
               <div className="flex items-center gap-3">

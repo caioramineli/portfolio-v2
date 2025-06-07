@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Twitter } from 'lucide-react';
+import { ArrowDown, Github, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Whatsapp } from './ui/whatsappIcon';
-import myPhoto from '../assets/foto.jpg'
+import myPhoto from '../assets/foto.jpg';
 
 const Hero = () => {
   const scrollToAbout = () => {
@@ -32,29 +31,19 @@ const Hero = () => {
               </span>
             </motion.div>
 
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               Olá, eu sou <span className="gradient-text">Caio Ramineli</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              className="text-lg text-muted-foreground max-w-xl"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
+            <p className="text-lg text-muted-foreground max-w-xl">
               Transformando ideias em experiências digitais excepcionais. Especializado em desenvolvimento web moderno e criação de aplicações intuitivas e de alto desempenho.
-            </motion.p>
+            </p>
 
             <motion.div
               className="flex flex-wrap gap-4 pt-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
               <Button className="gradient-border" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>
                 Entre em contato
@@ -68,7 +57,7 @@ const Hero = () => {
               className="flex items-center gap-4 pt-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
             >
               <a href="https://github.com/caioramineli" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Github size={20} />
@@ -89,7 +78,7 @@ const Hero = () => {
             transition={{ duration: 0.4, delay: 0.2 }}
           >
             <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden p-4">
-              <img  className="w-full h-full rounded-full object-cover" alt="Developer portrait" src={myPhoto} />
+              <img className="w-full h-full rounded-full object-cover" alt="Developer portrait" src={myPhoto} fetchpriority="high" />
             </div>
           </motion.div>
         </div>

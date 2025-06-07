@@ -20,25 +20,45 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) =>  {
     e.preventDefault();
     setIsSubmitting(true);
+    console.log(formData);
+    
 
-    // Simulate form submission
-    setTimeout(() => {
+    const apiUrl = 'https://main-n8n-webhook.horizonflow.space/webhook/send-email-for-me';
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) throw new Error(`Erro: ${response.status}`);
+      
       toast({
         title: 'Mensagem enviada!',
         description: 'Obrigado por entrar em contato. Responderei em breve.',
         variant: 'default',
       });
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
+
+    } catch (error) {
+      toast({
+        title: 'Erro no envio da mensagem!',
+        description: 'Por favor tente novamente',
+        variant: 'destructive',
       });
-      setIsSubmitting(false);
-    }, 1500);
+    }
+
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+    });
+
+    setIsSubmitting(false);
   };
 
   const fadeInUp = {
@@ -85,7 +105,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-medium">Email</h4>
-                  <p className="text-muted-foreground">seuemail@exemplo.com</p>
+                  <p className="text-muted-foreground">caiofrancoramineli3@gmail.com</p>
                 </div>
               </div>
 
@@ -95,7 +115,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-medium">Telefone</h4>
-                  <p className="text-muted-foreground">(00) 12345-6789</p>
+                  <p className="text-muted-foreground">(18) 99666-1215</p>
                 </div>
               </div>
 
@@ -105,7 +125,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-medium">Localização</h4>
-                  <p className="text-muted-foreground">São Paulo, Brasil</p>
+                  <p className="text-muted-foreground">Presidente Prudente - SP, Brasil</p>
                 </div>
               </div>
             </div>

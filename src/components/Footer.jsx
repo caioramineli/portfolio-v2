@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
+import { Whatsapp } from './ui/whatsappIcon';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,7 +18,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://github.com"
+                href="https://github.com/caioramineli"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
@@ -25,7 +26,7 @@ const Footer = () => {
                 <Github size={20} />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/caioramineli"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
@@ -33,15 +34,15 @@ const Footer = () => {
                 <Linkedin size={20} />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://wa.me/5518996661215"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                <Twitter size={20} />
+                <Whatsapp size={20} />
               </a>
               <a
-                href="mailto:seuemail@exemplo.com"
+                href="mailto:caiofrancoramineli3@gmail.com"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail size={20} />
@@ -99,18 +100,18 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4">Contato</h4>
             <ul className="space-y-2">
               <li className="text-muted-foreground">
-                São Paulo, Brasil
+                Presidente Prudente - SP, Brasil
               </li>
               <li>
                 <a
-                  href="mailto:seuemail@exemplo.com"
+                  href="mailto:caiofrancoramineli3@gmail.com"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  seuemail@exemplo.com
+                  caiofrancoramineli3@gmail.com
                 </a>
               </li>
               <li className="text-muted-foreground">
-                (00) 12345-6789
+                (18) 99666-1215
               </li>
             </ul>
           </div>

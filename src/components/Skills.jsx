@@ -112,8 +112,7 @@ const Skills = () => {
           <h3 className="text-xl font-bold mb-6 text-center gradient-text">Tecnologias que utilizo</h3>
           <div className="flex flex-wrap justify-center gap-6">
             {[
-              'JavaScript', 'TypeScript', 'React', 'Vue.js', 'Node.js', 
-              'Express', 'Next.js', 'MongoDB', 'PostgreSQL', 'MySQL', 'Git', 'TailwindCSS', 'Figma'
+              'JavaScript', 'TypeScript', 'Node.js', 'Express', 'React', 'Next.js', 'Vue.js', 'Vuetify', 'MongoDB', 'PostgreSQL', 'MySQL', 'Git', 'TailwindCSS', 'n8n', 'IA'
             ].map((tech, index) => (
               <motion.div
                 key={tech}

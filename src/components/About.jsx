@@ -80,7 +80,7 @@ const About = () => {
                 <div>
                   <h4 className="font-medium">Experiência Profissional</h4>
                   <p className="text-sm text-muted-foreground">
-                    Trabalhei em empresas de tecnologia e projetos freelance
+                    Trabalhei em empresas de tecnologia e vários projetos freelance
                   </p>
                 </div>
               </div>

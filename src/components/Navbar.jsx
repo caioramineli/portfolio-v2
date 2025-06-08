@@ -45,14 +45,14 @@ const Navbar = ({ scrollY }) => {
   const closeMenu = () => setIsOpen(false);
 
   const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      window.scrollTo({
-        top: section.offsetTop - 80,
-        behavior: 'smooth',
-      });
-    }
     closeMenu();
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const topOffset = section.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      }
+    }, 150);
   };
 
   return (
@@ -126,18 +126,14 @@ const Navbar = ({ scrollY }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
               {navItems.map((item, index) => (
                 <Button
                   key={item.name}
                   variant="ghost"
-                  className={`w-full justify-start ${
-                    activeSection === item.href.substring(1)
-                      ? 'text-primary'
-                      : 'text-muted-foreground'
-                  }`}
+                  className={`w-full justify-start ${ activeSection === item.href.substring(1) ? 'text-primary' : 'text-muted-foreground' }`}
                   onClick={() => scrollToSection(item.href.substring(1))}
                 >
                   {item.name}

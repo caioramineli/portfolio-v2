@@ -23,8 +23,6 @@ const Contact = () => {
   const handleSubmit = async (e) =>  {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log(formData);
-    
 
     const apiUrl = 'https://main-n8n-webhook.horizonflow.space/webhook/send-email-for-me';
 

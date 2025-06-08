@@ -72,7 +72,7 @@ const Hero = () => {
           </div>
 
           <motion.div
-            className="w-full md:w-1/2 flex justify-center"
+            className="w-full md:w-1/2 hidden sm:flex justify-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
@@ -84,12 +84,12 @@ const Hero = () => {
         </div>
 
         <motion.div
-          className="absolute -bottom-2 md:bottom-10 inset-x-0 mx-auto flex flex-col items-center"
+          className="absolute -bottom-1 md:bottom-10 inset-x-0 mx-auto flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4 }}
         >
-          <span className="text-sm text-muted-foreground mb-2">Role para baixo</span>
+          <span className="text-sm text-muted-foreground mb-1">Role para baixo</span>
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 1.2 }}

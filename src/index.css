@@ -1,29 +1,28 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 217 91.2% 59.8%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --background: 60 5% 4%;
+    --foreground: 50 14% 91%;
+    --card: 60 4% 7%;
+    --card-foreground: 50 14% 91%;
+    --popover: 60 4% 7%;
+    --popover-foreground: 50 14% 91%;
+    --primary: 16 100% 58%;
+    --primary-foreground: 60 5% 4%;
+    --secondary: 60 3% 11%;
+    --secondary-foreground: 50 14% 91%;
+    --muted: 60 3% 11%;
+    --muted-foreground: 50 4% 56%;
+    --accent: 60 3% 13%;
+    --accent-foreground: 50 14% 91%;
+    --destructive: 0 72% 46%;
+    --destructive-foreground: 50 14% 96%;
+    --border: 60 3% 15%;
+    --input: 60 3% 22%;
+    --ring: 16 100% 58%;
     --radius: 0.5rem;
   }
 }
@@ -32,58 +31,122 @@
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Poppins', sans-serif;
+    @apply bg-background font-sans text-foreground antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
-.gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600;
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground;
+  }
+
+  /* Botões em pílula com preenchimento subindo no hover */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3.5 text-sm font-medium transition-colors duration-500 disabled:pointer-events-none disabled:opacity-60;
+    isolation: isolate;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    transform: translateY(101%);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn:hover::before {
+    transform: translateY(0);
+  }
+
+  .btn-primary {
+    @apply bg-foreground text-background;
+  }
+
+  .btn-primary::before {
+    @apply bg-primary;
+  }
+
+  .btn-outline {
+    @apply border border-foreground/20 text-foreground hover:text-background;
+  }
+
+  .btn-outline::before {
+    @apply bg-foreground;
+  }
+
+  /* Texto que "rola" para cima no hover do elemento .group */
+  .roll {
+    display: inline-flex;
+    flex-direction: column;
+    height: 1.25em;
+    line-height: 1.25em;
+    overflow: hidden;
+  }
+
+  .roll > span {
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .group:hover .roll > span {
+    transform: translateY(-100%);
+  }
+
+  /* Sublinhado que se desenha no hover */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-position: 0% 100%;
+    background-size: 100% 1px;
+  }
+
+  .field {
+    @apply w-full border-0 border-b border-input bg-transparent px-0 py-3 text-base text-foreground transition-colors duration-300 placeholder:text-muted-foreground/50 focus:border-foreground focus:outline-none focus:ring-0;
+  }
 }
 
-.gradient-border {
-  position: relative;
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.gradient-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 0.5rem;
-  padding: 2px;
-  background: linear-gradient(to right, #3b82f6, #8b5cf6);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+/* Granulado sutil sobre a página inteira */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 70;
   pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.hero-gradient {
-  background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15), transparent 50%);
-}
-
-.skill-card {
-  backdrop-filter: blur(8px);
-  background: rgba(30, 30, 35, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.project-card {
-  transition: all 0.3s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-10px) !important;
-}
-
-.contact-form input,
-.contact-form textarea {
-  background: rgba(30, 30, 35, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
+.hairline-grid {
+  background-image: linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px);
+  background-size: calc(100% / 12) 100%;
 }

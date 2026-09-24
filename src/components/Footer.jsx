@@ -1,128 +1,98 @@
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowUp, ArrowUpRight } from 'lucide-react';
+import { navItems } from '@/components/Navbar';
+import { EASE } from '@/components/ui/motion';
+import { useLocalTime } from '@/hooks/useLocalTime';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail } from 'lucide-react';
-import { Whatsapp } from './ui/whatsappIcon';
+const socials = [
+  { name: 'GitHub', href: 'https://github.com/caioramineli' },
+  { name: 'LinkedIn', href: 'https://linkedin.com/in/caioramineli' },
+  { name: 'WhatsApp', href: 'https://wa.me/5518996661215' },
+  { name: 'Email', href: 'mailto:caiofrancoramineli3@gmail.com' },
+];
 
 const Footer = () => {
+  const ref = useRef(null);
+  const time = useLocalTime();
   const currentYear = new Date().getFullYear();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
+  const wordmarkY = useTransform(scrollYProgress, [0, 1], ['40%', '0%']);
 
   return (
-    <footer className="py-12 border-t border-border/20">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold gradient-text mb-4">&lt;CaioRamineli/&gt;</h3>
-            <p className="text-muted-foreground mb-4 max-w-md">
-              Desenvolvedor full stack especializado em criar experiências digitais excepcionais e soluções web modernas.
+    <footer ref={ref} className="relative overflow-hidden border-t border-border pt-16">
+      <div className="container">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-12">
+          <div className="col-span-2 md:col-span-5">
+            <p className="max-w-xs text-2xl font-medium leading-tight tracking-tight">
+              Desenvolvedor full stack criando produtos web e automações com IA.
             </p>
-            <div className="flex space-x-4">
-              <a
-                href="https://github.com/caioramineli"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="https://linkedin.com/in/caioramineli"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="https://wa.me/5518996661215"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Whatsapp size={20} />
-              </a>
-              <a
-                href="mailto:caiofrancoramineli3@gmail.com"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Mail size={20} />
-              </a>
-            </div>
           </div>
 
-          <div>
-            <h4 className="font-bold text-lg mb-4">Links Rápidos</h4>
+          <nav className="md:col-span-2 md:col-start-7" aria-label="Rodapé">
+            <p className="eyebrow mb-4">Navegação</p>
             <ul className="space-y-2">
-              <li>
-                <a
-                  href="#home"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Início
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Sobre
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#skills"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Habilidades
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#projects"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Projetos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Contato
-                </a>
-              </li>
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <a href={`#${item.id}`} className="link-underline text-muted-foreground transition-colors hover:text-foreground">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="md:col-span-2">
+            <p className="eyebrow mb-4">Redes</p>
+            <ul className="space-y-2">
+              {socials.map((social) => (
+                <li key={social.name}>
+                  <a
+                    href={social.href}
+                    target={social.href.startsWith('http') ? '_blank' : undefined}
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {social.name}
+                    <ArrowUpRight
+                      size={14}
+                      className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-bold text-lg mb-4">Contato</h4>
-            <ul className="space-y-2">
-              <li className="text-muted-foreground">
-                Presidente Prudente - SP, Brasil
-              </li>
-              <li>
-                <a
-                  href="mailto:caiofrancoramineli3@gmail.com"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  caiofrancoramineli3@gmail.com
-                </a>
-              </li>
-              <li className="text-muted-foreground">
-                (18) 99666-1215
-              </li>
-            </ul>
+          <div className="col-span-2 md:col-span-2">
+            <p className="eyebrow mb-4">Horário local</p>
+            <p className="text-muted-foreground">
+              {time} <span className="text-muted-foreground/60">GMT−3</span>
+            </p>
+            <p className="text-muted-foreground">Presidente Prudente, SP</p>
           </div>
         </div>
 
-        <div className="border-t border-border/20 mt-12 pt-8 text-center">
-          <p className="text-muted-foreground text-sm">
-            &copy; {currentYear} Caio Ramineli. Todos os direitos reservados.
-          </p>
+        <div className="mt-16 flex items-center justify-between border-t border-border py-6">
+          <p className="eyebrow">&copy; {currentYear} Caio Ramineli</p>
+          <a href="#home" className="eyebrow group flex items-center gap-2 transition-colors hover:!text-foreground">
+            Voltar ao topo
+            <ArrowUp size={14} className="transition-transform duration-300 group-hover:-translate-y-1" />
+          </a>
         </div>
       </div>
+
+      <motion.p
+        aria-hidden
+        className="pointer-events-none select-none whitespace-nowrap text-center text-[21vw] font-medium leading-[0.75] tracking-[-0.07em] text-foreground/[0.06]"
+        style={{ y: wordmarkY }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: EASE }}
+      >
+        Ramineli
+      </motion.p>
     </footer>
   );
 };

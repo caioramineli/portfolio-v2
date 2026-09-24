@@ -1,9 +1,16 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Phone, MapPin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ArrowUpRight, Check, Copy } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { EASE, Magnetic, RevealWords, RollText, SectionHeader } from '@/components/ui/motion';
+
+const EMAIL = 'caiofrancoramineli3@gmail.com';
+
+const fields = [
+  { name: 'name', label: 'Seu nome', type: 'text', placeholder: 'Como posso te chamar?', autoComplete: 'name' },
+  { name: 'email', label: 'Seu email', type: 'email', placeholder: 'voce@empresa.com', autoComplete: 'email' },
+  { name: 'subject', label: 'Assunto', type: 'text', placeholder: 'Site, sistema, automação...' },
+];
 
 const Contact = () => {
   const { toast } = useToast();
@@ -14,13 +21,14 @@ const Contact = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) =>  {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -34,7 +42,7 @@ const Contact = () => {
       });
 
       if (!response.ok) throw new Error(`Erro: ${response.status}`);
-      
+
       toast({
         title: 'Mensagem enviada!',
         description: 'Obrigado por entrar em contato. Responderei em breve.',
@@ -59,170 +67,149 @@ const Contact = () => {
     setIsSubmitting(false);
   };
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${EMAIL}`;
+    }
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32 relative">
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          variants={fadeInUp}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Entre em <span className="gradient-text">Contato</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Tem um projeto em mente ou quer conversar sobre oportunidades? Entre em contato comigo.
-          </p>
-        </motion.div>
+    <section id="contact" className="py-24 md:py-40">
+      <div className="container">
+        <SectionHeader index="04" label="Contato" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <h2 className="text-[clamp(3rem,10vw,9rem)] font-medium leading-[0.95] tracking-[-0.055em]">
+          <RevealWords text="Tem um projeto" className="block" />
+          <RevealWords
+            text="em mente?"
+            delay={0.15}
+            className="block font-serif font-normal italic tracking-[-0.03em] text-primary"
+          />
+        </h2>
+
+        <div className="mt-16 grid gap-16 md:mt-24 md:grid-cols-12">
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            variants={fadeInUp}
+            className="md:col-span-5"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.9, ease: EASE }}
           >
-            <h3 className="text-2xl font-bold mb-6">Vamos conversar</h3>
-            <p className="text-muted-foreground mb-8">
-              Estou sempre aberto a novas oportunidades, projetos interessantes e colaborações. Preencha o formulário ou use os dados de contato abaixo para me encontrar.
+            <p className="max-w-sm text-lg leading-relaxed text-muted-foreground">
+              Estou aberto a novas oportunidades, projetos e colaborações. Mande uma mensagem pelo formulário ou fale
+              comigo direto por um dos canais abaixo.
             </p>
 
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="bg-primary/20 p-3 rounded-full">
-                  <Mail className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-medium">Email</h4>
-                  <p className="text-muted-foreground">caiofrancoramineli3@gmail.com</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="bg-primary/20 p-3 rounded-full">
-                  <Phone className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-medium">Telefone</h4>
-                  <p className="text-muted-foreground">(18) 99666-1215</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="bg-primary/20 p-3 rounded-full">
-                  <MapPin className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-medium">Localização</h4>
-                  <p className="text-muted-foreground">Presidente Prudente - SP, Brasil</p>
-                </div>
+            <div className="mt-10">
+              <p className="eyebrow mb-2">Email</p>
+              <div className="flex items-center gap-3">
+                <a href={`mailto:${EMAIL}`} className="link-underline min-w-0 break-words text-lg font-medium tracking-tight sm:text-xl md:text-2xl">
+                  {EMAIL}
+                </a>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  aria-label={copied ? 'Email copiado' : 'Copiar email'}
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                >
+                  {copied ? <Check size={15} className="text-primary" /> : <Copy size={15} />}
+                </button>
               </div>
             </div>
+
+            <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-border pt-8">
+              <div>
+                <dt className="eyebrow mb-2">Telefone</dt>
+                <dd>
+                  <a href="https://wa.me/5518996661215" target="_blank" rel="noopener noreferrer" className="link-underline">
+                    (18) 99666-1215
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="eyebrow mb-2">Localização</dt>
+                <dd>Presidente Prudente — SP, Brasil</dd>
+              </div>
+            </dl>
           </motion.div>
 
-          <motion.div
+          <motion.form
+            onSubmit={handleSubmit}
+            className="space-y-10 md:col-span-6 md:col-start-7"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            variants={fadeInUp}
+            transition={{ staggerChildren: 0.08 }}
           >
-            <form onSubmit={handleSubmit} className="contact-form space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Nome
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-                  placeholder="Seu nome"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-                  placeholder="seu@email.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  Assunto
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-                  placeholder="Assunto da mensagem"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Mensagem
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="5"
-                  className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-                  placeholder="Sua mensagem"
-                ></textarea>
-              </div>
-
-              <Button
-                type="submit"
-                className="w-full gradient-border"
-                disabled={isSubmitting}
+            {fields.map((field, index) => (
+              <motion.div
+                key={field.name}
+                variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
+                transition={{ duration: 0.8, ease: EASE }}
               >
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Enviando...
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-2">
-                    <Send className="h-4 w-4" />
-                    Enviar Mensagem
-                  </span>
-                )}
-              </Button>
-            </form>
-          </motion.div>
+                <label htmlFor={field.name} className="eyebrow flex gap-3">
+                  <span className="text-primary">0{index + 1}</span>
+                  {field.label}
+                </label>
+                <input
+                  id={field.name}
+                  name={field.name}
+                  type={field.type}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  placeholder={field.placeholder}
+                  autoComplete={field.autoComplete}
+                  required
+                  className="field"
+                />
+              </motion.div>
+            ))}
+
+            <motion.div
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.8, ease: EASE }}
+            >
+              <label htmlFor="message" className="eyebrow flex gap-3">
+                <span className="text-primary">04</span>
+                Mensagem
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                rows="4"
+                placeholder="Conte um pouco sobre a ideia, prazos e o que você precisa."
+                className="field resize-none"
+              />
+            </motion.div>
+
+            <motion.div
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.8, ease: EASE }}
+            >
+              <Magnetic strength={0.2}>
+                <button type="submit" className="btn btn-primary group !px-8 !py-4 text-base" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <RollText>Enviar mensagem</RollText>
+                      <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:rotate-45" />
+                    </>
+                  )}
+                </button>
+              </Magnetic>
+            </motion.div>
+          </motion.form>
         </div>
       </div>
     </section>

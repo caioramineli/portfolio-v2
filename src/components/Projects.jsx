@@ -1,8 +1,7 @@
-
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
+import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion';
+import { ArrowUpRight, Github } from 'lucide-react';
+import { EASE, Magnetic, RollText, SectionHeader } from '@/components/ui/motion';
 
 import fswBarber from '@/assets/fsw-barber.webp';
 import techInsights from '@/assets/tech-insights.webp';
@@ -14,7 +13,8 @@ import scaLogin from '@/assets/sca-login.webp';
 const projects = [
   {
     title: 'FSW Barber',
-    description: 'Sistema para barbearias, desenvolvido especialmente para dispositivos mobile. Foi utilizado as tecnologias mais recentes do mercado.',
+    kind: 'Produto',
+    description: 'Sistema de agendamento para barbearias, pensado primeiro para o celular.',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'PostgreSQL'],
     image: fswBarber,
     liveLink: 'https://fsw-barber-caio.vercel.app/',
@@ -22,7 +22,8 @@ const projects = [
   },
   {
     title: 'Tech Insights',
-    description: 'Plataforma de e-commerce especializado em hardwares e equipamentos de informática, onde o diferencial será conteúdo informativo.',
+    kind: 'E-commerce',
+    description: 'Loja de hardware e informática em que o diferencial é o conteúdo informativo.',
     tags: ['React', 'Node.js', 'Tailwind CSS', 'MongoDB'],
     image: techInsights,
     liveLink: 'https://techinsights.store/',
@@ -30,7 +31,8 @@ const projects = [
   },
   {
     title: 'Planejador de Viagem',
-    description: 'O projeto é um site responsivo para montar um roteiro de viagem, cadastrando atividades. O projeto é do evento NLW Journey, um evento da Rocketseat.',
+    kind: 'NLW Journey',
+    description: 'Monte o roteiro da viagem cadastrando atividades. Feito no evento NLW Journey, da Rocketseat.',
     tags: ['React', 'TypeScript', 'Tailwind CSS'],
     image: planner,
     liveLink: 'https://planner-nlw.vercel.app/',
@@ -38,124 +40,184 @@ const projects = [
   },
   {
     title: 'Clone da Twitch',
-    description: 'Projeto acadêmico para praticar o conhecimento adquirido sobre Programação WEB e Banco de dados MySql.',
-    tags: ['PHP', 'MySQL', 'JavaScript', 'HTML', 'CSS'],
+    kind: 'Acadêmico',
+    description: 'Projeto da faculdade para praticar programação web e banco de dados MySQL.',
+    tags: ['PHP', 'MySQL', 'JavaScript'],
     image: twitch,
-    liveLink: '#',
+    liveLink: null,
     githubLink: 'https://github.com/caioramineli/twitch-clone',
   },
   {
     title: 'Xhopii',
-    description: 'Projeto acadêmico, focado em utilizar os conceitos absorvidos sobre programação Web. Não é um clone da shopee!',
+    kind: 'Acadêmico',
+    description: 'Exercício de programação web com os conceitos vistos em aula. Não é um clone da Shopee!',
     tags: ['JavaScript', 'HTML', 'CSS', 'Bootstrap'],
     image: shopee,
     liveLink: 'https://caioramineli.github.io/shopee-eletiva/',
     githubLink: 'https://github.com/caioramineli/shopee-eletiva',
   },
   {
-    title: 'Sistema Conveniência Araújo',
-    description: 'Sistema para uma conveniência, seguindo como base a ERS (Especificação de Requisitos de Software).',
-    tags: ['PHP', 'MySQL', 'JavaScript', 'jQuery', 'HTML', 'CSS'],
+    title: 'Conveniência Araújo',
+    kind: 'Sistema',
+    description: 'Sistema de gestão para uma conveniência, construído a partir de uma ERS completa.',
+    tags: ['PHP', 'MySQL', 'jQuery'],
     image: scaLogin,
-    liveLink: '#',
+    liveLink: null,
     githubLink: 'https://github.com/caioramineli/sistema-SCA',
   },
 ];
 
-const ProjectCard = ({ project, index }) => {
-  return (
-    <motion.div
-      className="project-card bg-secondary/20 rounded-lg overflow-hidden gradient-border"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.1 * index }}
-    >
-      <div className="h-56 overflow-hidden">
-        <img className="w-full h-full object-cover" alt={project.title} src={project.image} loading="lazy" />
-      </div>
-      <div className="p-6">
-        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-        <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-1 bg-primary/10 rounded-full text-xs font-medium text-primary"
+// Prévia que segue o cursor e troca de imagem deslizando entre projetos.
+const CursorPreview = ({ active, x, y }) => (
+  <motion.div className="pointer-events-none fixed left-0 top-0 z-30 hidden lg:block" style={{ x, y }} aria-hidden>
+    <div className="-translate-x-1/2 -translate-y-1/2">
+      <AnimatePresence>
+        {active !== null && (
+          <motion.div
+            className="relative h-[240px] w-[360px] overflow-hidden rounded-md bg-card shadow-2xl shadow-black/60"
+            initial={{ scale: 0.4, opacity: 0, rotate: -6 }}
+            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            exit={{ scale: 0.4, opacity: 0, rotate: 6 }}
+            transition={{ duration: 0.45, ease: EASE }}
+          >
+            <motion.div
+              className="h-full"
+              animate={{ y: `${-active * 100}%` }}
+              transition={{ duration: 0.6, ease: EASE }}
             >
-              {tag}
+              {projects.map((project) => (
+                <img key={project.title} src={project.image} alt="" className="h-full w-full object-cover object-top" />
+              ))}
+            </motion.div>
+            <span className="absolute bottom-3 right-3 grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground">
+              <ArrowUpRight size={20} />
             </span>
-          ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  </motion.div>
+);
+
+const ProjectRow = ({ project, index, onEnter }) => {
+  const mainLink = project.liveLink || project.githubLink;
+
+  return (
+    <motion.li
+      className="group relative"
+      onPointerEnter={onEnter}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+    >
+      <motion.span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px origin-left bg-border"
+        variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
+        transition={{ duration: 1.1, ease: EASE }}
+      />
+
+      <motion.div
+        className="grid gap-5 py-8 md:grid-cols-12 md:items-center md:gap-8 md:py-10"
+        variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
+        transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
+      >
+        <div className="overflow-hidden rounded-md bg-card md:hidden">
+          <img src={project.image} alt={project.title} loading="lazy" className="aspect-[16/10] w-full object-cover object-top" />
         </div>
-        <div className="flex gap-3">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-1"
-            asChild
-          >
-            <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
-              <ExternalLink size={14} />
-              <span>Projeto</span>
+
+        <span className="hidden font-mono text-xs text-muted-foreground md:col-span-1 md:block">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+
+        <div className="md:col-span-6">
+          <h3 className="text-[clamp(2rem,4.5vw,3.75rem)] font-medium leading-none tracking-[-0.04em]">
+            <a href={mainLink} target="_blank" rel="noopener noreferrer" className="after:absolute after:inset-0">
+              <span className="inline-block transition-[transform,color] duration-500 ease-out-expo lg:group-hover:translate-x-4 lg:group-hover:text-primary">
+                {project.title}
+              </span>
             </a>
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-1"
-            asChild
-          >
-            <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
-              <Github size={14} />
-              <span>Código</span>
-            </a>
-          </Button>
+          </h3>
+          <p className="mt-3 max-w-md text-muted-foreground transition-transform duration-500 ease-out-expo lg:group-hover:translate-x-4">
+            {project.description}
+          </p>
         </div>
-      </div>
-    </motion.div>
+
+        <div className="md:col-span-4">
+          <p className="eyebrow mb-3">{project.kind}</p>
+          <ul className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted-foreground">
+            {project.tags.map((tag, i) => (
+              <li key={tag}>
+                {tag}
+                {i < project.tags.length - 1 && <span className="ml-3 text-border">/</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex items-center gap-3 md:col-span-1 md:justify-end">
+          <a
+            href={project.githubLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Código de ${project.title} no GitHub`}
+            className="relative z-10 grid h-11 w-11 place-items-center rounded-full border border-border text-muted-foreground transition-colors duration-300 hover:border-foreground hover:text-foreground"
+          >
+            <Github size={17} />
+          </a>
+          <span className="grid h-11 w-11 place-items-center rounded-full border border-border transition-all duration-500 group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground md:hidden lg:grid">
+            <ArrowUpRight size={18} />
+          </span>
+        </div>
+      </motion.div>
+    </motion.li>
   );
 };
 
 const Projects = () => {
+  const [active, setActive] = useState(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 250, damping: 28, mass: 0.5 });
+  const springY = useSpring(y, { stiffness: 250, damping: 28, mass: 0.5 });
+
+  const handleMove = (e) => {
+    if (e.pointerType !== 'mouse') return;
+    x.set(e.clientX);
+    y.set(e.clientY);
+  };
+
   return (
-    <section id="projects" className="py-20 md:py-32 relative">
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Meus <span className="gradient-text">Projetos</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Confira alguns dos projetos que desenvolvi, demonstrando minhas habilidades e experiência.
-          </p>
-        </motion.div>
+    <section id="projects" className="py-24 md:py-40">
+      <div className="container">
+        <SectionHeader index="03" label="Projetos">
+          Trabalhos <span className="font-serif font-normal italic tracking-[-0.02em] text-primary">selecionados</span>
+        </SectionHeader>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <ul className="relative border-b border-border" onPointerMove={handleMove} onPointerLeave={() => setActive(null)}>
           {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
+            <ProjectRow key={project.title} project={project} index={index} onEnter={() => setActive(index)} />
           ))}
-        </div>
+        </ul>
+
+        <CursorPreview active={active} x={springX} y={springY} />
 
         <motion.div
-          className="text-center mt-12"
+          className="mt-14 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.8, ease: EASE }}
         >
-          <Button
-            className="gradient-border"
-            asChild
-          >
-            <a href="https://github.com/caioramineli" target="_blank" rel="noopener noreferrer">
-              Ver mais no GitHub
+          <p className="max-w-sm text-muted-foreground">
+            Esses são alguns recortes. O resto do código, experimentos e estudos estão no GitHub.
+          </p>
+          <Magnetic>
+            <a href="https://github.com/caioramineli" target="_blank" rel="noopener noreferrer" className="btn btn-outline group">
+              <Github size={16} />
+              <RollText>Ver mais no GitHub</RollText>
             </a>
-          </Button>
+          </Magnetic>
         </motion.div>
       </div>
     </section>
